@@ -32,7 +32,7 @@ run_dna_rna_tools('ATG', 'aT', action = 'reverse')
 - At the same time, if sequences related to nucleic acids and sequences of arbitrary letters are simultaneously submitted to the input, then DNA and RNA sequences will be processed.At the same time, if sequences related to nucleic acids and sequences of arbitrary letters are simultaneously submitted to the input, then DNA and RNA sequences will be processed. At the output you will get processed sequences, as well as the number (number in the input list) and sequences that were not processed.
 
 ```python
-run_dna_rna_tools('TG', 'DF' action = 'reverse')
+run_dna_rna_tools('TG', 'DF', action = 'reverse')
 
 #Output
 #Sequences that are not DNA or RNA (number in the input list: seq): {2: 'DF'}
