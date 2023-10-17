@@ -2,9 +2,12 @@ from typing import Union
 import additional_modules.for_filter_read as ffr
 import additional_modules.dna_rna_tools as drt
 import additional_modules.run_aminoacid_seq as amino
+import os
+import additional_modules.convert_fastq_file_dict as cfd
 
 
 def run_dna_rna_tools(*args: str, action: str) -> Union[str, list]:
+
     """
     Performs the following list of operations with DNA or RNA:
     -transcribe - transcribes DNA sequences into RNA,
@@ -58,33 +61,36 @@ def run_dna_rna_tools(*args: str, action: str) -> Union[str, list]:
     return res
 
 
-def filter_read(seqs:  dict[str, tuple[str, str]],
+def filter_read(input_path: str, output_filename: str = None,
                 gc_bounds: Union[tuple[Union[float, int]], Union[float, int]] = (0, 100),
                 length_bounds: Union[tuple[int], int] = (0, 2 ** 32),
                 quality_threshold: int = 0,
-                report: bool = False) -> Union[dict, dict and str]:
+                report: bool = False) -> str:
+
     """
-    Filter the sequence dictionary (fastq) using the following parameters:
+    Filter the fastq file using the following parameters:
     - GC content
     - sequence length
     - sequence quality
 
-    :param seqs: sequences dictionary (dict)
-    :param gc_bounds: gc content range to filtering (in percent);
+    :param input_path: path to the fastq file that needs to be filtered
+    :param output_filename: file name with filtered data
+    :param gc_bounds: gc_bounds: gc content range to filtering (in percent);
            sequences that are not included in the range are discarded;
            if you pass one number, this number will be considered the upper limit;
            default = (0, 100) - all reads will be saved, regardless of gc composition
-    :param length_bounds: sequence length range for filtering;
+    :param length_bounds:sequence length range for filtering;
            sequences that are not included in the range are discarded;
            if you pass one number, this number will be considered the upper limit;
            default = (0, 2 ** 32)
-    :param quality_threshold: average sequence quality threshold for filtering (Phred33 scale);
+    :param quality_threshold:average sequence quality threshold for filtering (Phred33 scale);
            sequences with quality below the threshold are discarded
-    :param report: report = True (show filtering report), report = True (default)
-    :return: A filtered dictionary containing sequences (fastq)
+    :param report:report = True (show filtering report), report = True (default)
+    :return:A filtered fastq file containing sequences
              that have passed all tests (according to specified parameters)
     """
 
+    seqs = cfd.convert_fastq_to_dict(input_path)
     filter_seqs = {}
 
     if type(gc_bounds) != tuple:
@@ -92,22 +98,30 @@ def filter_read(seqs:  dict[str, tuple[str, str]],
     if type(length_bounds) != tuple:
         length_bounds = (0, length_bounds)
 
-    for name, read_quality in seqs.items():
-        read = read_quality[0]
-        quality = read_quality[1]
+    for name, read_com_quality in seqs.items():
+        read = read_com_quality[0]
+        quality = read_com_quality[2]
         if gc_bounds[0] <= ffr.determine_gc_content(read) <= gc_bounds[1]:
             if length_bounds[0] <= ffr.determine_lenght(read) <= length_bounds[1]:
                 if ffr.determine_quality(quality) > quality_threshold:
-                    filter_seqs[name] = read_quality
+                    filter_seqs[name] = read_com_quality
+
+    if output_filename is None:
+        output_filename = os.path.basename(input_path)
+
+    output_filename = f'{output_filename}.fastq'
+
+    cfd.create_filtr_fastq(output_filename, filter_seqs)
 
     if report:
         print(ffr.create_report_about_filt(seqs, filter_seqs))
 
-    return filter_seqs
+    return f'{output_filename} file created!'
 
 
 def run_aminoacid_seq(sequence: str, function: str = 'summary', record_type: int = 1,
                       percent: bool = False) -> Union[str, dict, int]:
+
     """
     Performs the following list of operations:
     count - counts number of amino acid
