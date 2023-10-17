@@ -107,7 +107,7 @@ def filter_read(input_path: str, output_filename: str = None,
                     filter_seqs[name] = read_com_quality
 
     if output_filename is None:
-        output_filename = os.path.basename(input_path)
+        output_filename = os.path.splitext(os.path.basename(input_path))[0]
 
     output_filename = f'{output_filename}.fastq'
 
