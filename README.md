@@ -1,10 +1,10 @@
 # 🧬DORi: <img src ='https://clipart-library.com/new_gallery/339-3399184_finding-nemo-facebook-banner.png' width =400 align="right">
 ## Determine the characteristics of amino acid sequences, Obtaine processed DNA or RNA, Remove low-quality fastq sequences
-The idea of this program is to make life easier for experimenters and bioinformatics working with nucleic acids, amino acid sequences (both long and short), as well as fastq sequences. This tool is designed to work with nucleotide, amino acid sequences and fastq sequences.
+The idea of this program is to make life easier for experimenters and bioinformatics working with nucleic acids, amino acid sequences (both long and short), as well as fastq sequences. This tool is designed to work with nucleotide, amino acid sequences and fastq files.
 The tool includes **3 modules:**
 - `run_dna_rna_tools` — this module is designed to work with sequences of nucleic acids (DNA and RNA)
 - `run_aminoacid_seq` — this module is designed to work with amino acid sequences
-- `filter_read` - this module is designed to filter a dictionary with fastq sequences by specified parameters
+- `filter_read` - this module is designed to filter a fastq file by specified parameters
 ## Instruction: 
 ### `run_dna_rna_tools`🧑🏻‍🔬 
 
@@ -101,7 +101,7 @@ run_aminoacid_seq('ALALEUILE', function = 'count', record_type = 1)
 The `filter_read` function is designed to filter a fastq file by specified parameters (read length, gc content, quality).
 
 ### Usage:
-The function `filter_read` accepts 5 arguments as input: input_path (str), output_filename (str), gc_bounds (int, float or tuple), length_bounds (int, float или tuple), quality_threshold (int).
+The function `filter_read` accepts 5 arguments as input: input_path (str), output_filename (str), gc_bounds (int, float or tuple), length_bounds (int, float or tuple), quality_threshold (int).
 
 - As the first argument, specify the path to the fastq file.
 - In argument `output_filename`, specify the name of the file with filtered sequences. If the argument is omitted, the file will be named the same as the source file. 
