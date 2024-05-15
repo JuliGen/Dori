@@ -37,13 +37,14 @@ This module is designed to work with bioinformatic files, in particular with fas
 - `RandomForestClassifierCustom` - this class represents a custom implementation of the classifier using the random forest algorithm. Additionally, this class supports the use of multiple threads (the n_jobs parameter) to speed up the fitting and prediction process.
 
 ## 🛠️test_dori.py: 
-The script test_dori.py it includes functions for testing the tools presented above.
+The `script test_dori.py` it includes functions for testing the tools presented above.
 
 
 
 ## Example:
 <img src ='https://i.pinimg.com/originals/10/3d/d7/103dd740fe24055d2db8a69056c70fb9.png' width =200 align="right">
-Examples of running some programs are presented in `Showcases.ipynb`
+Examples of running some programs are presented in Showcases.ipynb.
+
 
 ## 
 
